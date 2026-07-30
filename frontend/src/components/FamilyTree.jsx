@@ -306,7 +306,7 @@ function PersonCard({ person, onSelect, isPatriarch }) {
   return (
     <button
       onClick={() => onSelect(person)}
-      className="group relative flex w-[200px] sm:w-[220px] items-center gap-3 sm:gap-4 rounded-xl p-3 sm:px-5 sm:py-4 text-left transition hover:-translate-y-1 active:scale-95"
+      className="group relative flex w-[210px] sm:w-[220px] items-center gap-3 sm:gap-4 rounded-xl p-3 sm:px-5 sm:py-4 text-left transition hover:-translate-y-1 active:scale-95"
       style={{
         background: PARCHMENT_CARD,
         border: `1px solid ${LACQUER}`,
@@ -353,22 +353,22 @@ function PersonCard({ person, onSelect, isPatriarch }) {
 
 function Couple({ person, onSelect, isPatriarch }) {
   return (
-    <div className="relative flex flex-col sm:flex-row items-center gap-2">
+    <div className="relative flex flex-row items-center gap-2 shrink-0">
       <PersonCard person={person} onSelect={onSelect} isPatriarch={isPatriarch} />
 
       {person.spouse && (
         <>
-          <div className="flex sm:flex-col items-center py-1 sm:py-0 px-1">
-            <div className="hidden sm:block h-[2px] w-8 sm:w-10" style={{ background: GOLD }} />
-            <div className="block sm:hidden h-4 w-[2px]" style={{ background: GOLD }} />
+          <div className="flex flex-row items-center py-0 px-1 shrink-0">
+            <div className="block h-[2px] w-8 sm:w-10" style={{ background: GOLD }} />
+            <div className="hidden h-4 w-[2px]" style={{ background: GOLD }} />
             <span
               className="-my-1.5 text-[1.2rem] sm:text-[1.5rem]"
               style={{ color: LACQUER, textShadow: `0 1px 0 ${GOLD}88` }}
             >
               ❦
             </span>
-            <div className="hidden sm:block h-[2px] w-8 sm:w-10" style={{ background: GOLD }} />
-            <div className="block sm:hidden h-4 w-[2px]" style={{ background: GOLD }} />
+            <div className="block h-[2px] w-8 sm:w-10" style={{ background: GOLD }} />
+            <div className="hidden h-4 w-[2px]" style={{ background: GOLD }} />
           </div>
 
           <PersonCard person={person.spouse} onSelect={onSelect} />
@@ -384,10 +384,10 @@ function Generation({ children, onSelect, level }) {
   }
 
   return (
-    <div className="mt-14 sm:mt-20 flex flex-col items-center">
+    <div className="mt-14 sm:mt-20 flex flex-col items-center shrink-0">
       <GenerationLabel level={level} />
 
-      <div className="relative flex flex-col sm:flex-row justify-center gap-8 sm:gap-10 pt-4 sm:pt-6">
+      <div className="relative flex flex-row justify-center gap-8 sm:gap-10 pt-4 sm:pt-6 shrink-0">
         <div
           className="absolute -top-4 sm:-top-7 left-1/2 h-6 sm:h-10 w-[2px] -translate-x-1/2"
           style={{ background: GOLD }}
@@ -395,7 +395,7 @@ function Generation({ children, onSelect, level }) {
 
         {children.length > 1 && (
           <div
-            className="hidden sm:block absolute -top-7 left-[calc(50%-120px)] right-[calc(50%-120px)] h-[2px]"
+            className="block absolute -top-7 left-[calc(50%-120px)] right-[calc(50%-120px)] h-[2px]"
             style={{ background: GOLD }}
           />
         )}
@@ -404,7 +404,7 @@ function Generation({ children, onSelect, level }) {
           <div key={child.id} className="relative flex flex-col items-center">
             {children.length > 1 && (
               <div
-                className="hidden sm:block absolute -top-7 h-10 w-[2px]"
+                className="block absolute -top-7 h-10 w-[2px]"
                 style={{ background: GOLD }}
               />
             )}
@@ -527,7 +527,7 @@ export default function FamilyTree() {
           }}
         >
           <div
-            className="relative overflow-hidden rounded-[16px] sm:rounded-[20px] p-4 sm:p-12"
+            className="relative overflow-hidden rounded-[16px] sm:rounded-[20px] p-3 sm:p-12"
             style={{
               backgroundColor: PARCHMENT,
               backgroundImage: motifPattern(`${GOLD}33`, `${LACQUER}26`),
@@ -541,10 +541,16 @@ export default function FamilyTree() {
             <ElegantCorner position="bottom-left" />
             <ElegantCorner position="bottom-right" />
 
-            <div className="overflow-x-auto overflow-y-hidden pb-4">
+            <div
+              className="w-full overflow-x-auto overflow-y-hidden pb-5 overscroll-x-contain"
+              style={{ WebkitOverflowScrolling: "touch" }}
+            >
               <div
-                className="flex min-w-max justify-center pb-16 pt-6 transition-transform duration-300 ease-out"
-                style={{ transform: `scale(${zoom})`, transformOrigin: "top center" }}
+                className="flex w-max min-w-full justify-center pb-16 pt-6 transition-transform duration-300 ease-out"
+                style={{
+                  transform: `scale(${zoom})`,
+                  transformOrigin: "top center",
+                }}
               >
                 <div className="flex flex-col items-center">
                   <GenerationLabel level={1} />
