@@ -353,22 +353,30 @@ function PersonCard({ person, onSelect, isPatriarch }) {
 
 function Couple({ person, onSelect, isPatriarch }) {
   return (
-    <div className="relative flex flex-row items-center gap-2 shrink-0">
+    <div className="relative flex flex-row items-center gap-1.5 sm:gap-2 shrink-0">
       <PersonCard person={person} onSelect={onSelect} isPatriarch={isPatriarch} />
 
       {person.spouse && (
         <>
-          <div className="flex flex-row items-center py-0 px-1 shrink-0">
-            <div className="block h-[2px] w-8 sm:w-10" style={{ background: GOLD }} />
-            <div className="hidden h-4 w-[2px]" style={{ background: GOLD }} />
+          <div className="relative flex w-8 sm:w-10 items-center justify-center shrink-0">
+            <div
+              className="absolute left-0 right-0 h-[2px] rounded-full"
+              style={{
+                background: `linear-gradient(90deg, ${GOLD}, ${LACQUER}, ${GOLD})`,
+              }}
+            />
             <span
-              className="-my-1.5 text-[1.2rem] sm:text-[1.5rem]"
-              style={{ color: LACQUER, textShadow: `0 1px 0 ${GOLD}88` }}
+              className="relative z-10 flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-sm sm:text-base"
+              style={{
+                color: LACQUER,
+                background: PARCHMENT_CARD,
+                border: `1.5px solid ${GOLD}`,
+                boxShadow: `0 1px 4px ${GOLD}66`,
+                textShadow: `0 1px 0 ${GOLD}88`,
+              }}
             >
               ❦
             </span>
-            <div className="block h-[2px] w-8 sm:w-10" style={{ background: GOLD }} />
-            <div className="hidden h-4 w-[2px]" style={{ background: GOLD }} />
           </div>
 
           <PersonCard person={person.spouse} onSelect={onSelect} />
@@ -387,29 +395,55 @@ function Generation({ children, onSelect, level }) {
     <div className="mt-14 sm:mt-20 flex flex-col items-center shrink-0">
       <GenerationLabel level={level} />
 
-      <div className="relative flex flex-row justify-center gap-8 sm:gap-10 pt-4 sm:pt-6 shrink-0">
+      {/* Nhánh thế hệ luôn nằm ngang, kể cả trên điện thoại */}
+      <div className="relative flex flex-row items-start justify-center gap-10 sm:gap-16 pt-8 sm:pt-10 shrink-0">
+        {/* Thân cây đi xuống từ thế hệ phía trên */}
         <div
-          className="absolute -top-4 sm:-top-7 left-1/2 h-6 sm:h-10 w-[2px] -translate-x-1/2"
-          style={{ background: GOLD }}
+          className="absolute -top-1 left-1/2 h-9 sm:h-11 w-[3px] -translate-x-1/2 rounded-full"
+          style={{
+            background: `linear-gradient(180deg, ${GOLD}, ${LACQUER}, ${GOLD})`,
+            boxShadow: `0 0 4px ${GOLD}66`,
+          }}
         />
 
+        {/* Thanh nối ngang các nhánh con */}
         {children.length > 1 && (
           <div
-            className="block absolute -top-7 left-[calc(50%-120px)] right-[calc(50%-120px)] h-[2px]"
-            style={{ background: GOLD }}
+            className="absolute top-8 sm:top-10 left-[15%] right-[15%] h-[3px] rounded-full"
+            style={{
+              background: `linear-gradient(90deg, transparent, ${GOLD}, ${LACQUER}, ${GOLD}, transparent)`,
+              boxShadow: `0 1px 3px ${GOLD}55`,
+            }}
           />
         )}
 
         {children.map((child) => (
-          <div key={child.id} className="relative flex flex-col items-center">
-            {children.length > 1 && (
-              <div
-                className="block absolute -top-7 h-10 w-[2px]"
-                style={{ background: GOLD }}
-              />
-            )}
+          <div
+            key={child.id}
+            className="relative flex min-w-[210px] flex-col items-center px-2"
+          >
+            {/* Đường nối từ thanh ngang xuống gia đình */}
+            <div
+              className="absolute -top-1 left-1/2 h-9 sm:h-11 w-[3px] -translate-x-1/2 rounded-full"
+              style={{
+                background: `linear-gradient(180deg, ${GOLD}, ${LACQUER})`,
+                boxShadow: `0 0 3px ${GOLD}55`,
+              }}
+            />
 
-            <Couple person={child} onSelect={onSelect} />
+            {/* Điểm giao nhánh */}
+            <div
+              className="absolute -top-2 left-1/2 z-10 h-4 w-4 -translate-x-1/2 rounded-full"
+              style={{
+                background: PARCHMENT_CARD,
+                border: `2px solid ${GOLD}`,
+                boxShadow: `0 0 0 2px ${PARCHMENT}, 0 1px 4px ${GOLD}88`,
+              }}
+            />
+
+            <div className="relative z-20 pt-8">
+              <Couple person={child} onSelect={onSelect} />
+            </div>
 
             <Generation
               children={child.children}
@@ -542,7 +576,7 @@ export default function FamilyTree() {
             <ElegantCorner position="bottom-right" />
 
             <div
-              className="w-full overflow-x-auto overflow-y-hidden pb-5 overscroll-x-contain"
+              className="w-full overflow-x-auto overflow-y-hidden pb-5 overscroll-x-contain scrollbar-thin"
               style={{ WebkitOverflowScrolling: "touch" }}
             >
               <div
